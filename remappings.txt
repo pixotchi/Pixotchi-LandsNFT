@@ -1,0 +1,5 @@
+lib=./lib
+lib_fork=./lib_fork
+@openzeppelin/contracts-upgradeable/=lib_fork/openzeppelin-upgradeable-v5/
+@openzeppelin/contracts/=lib_fork/openzeppelin-v5/
+
