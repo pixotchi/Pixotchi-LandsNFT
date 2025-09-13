@@ -175,4 +175,8 @@ We welcome community contributions and feedback as we continue to expand and imp
 
 ## License
 
-MIT - see [LICSENSE.md](LICENSE.md)
+Licensed under the MIT License. See the `LICENSE` file at the project root for details.
+
+---
+
+**Built with ❤️ for the Pixotchi community**
