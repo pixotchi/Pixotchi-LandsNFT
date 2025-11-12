@@ -1,6 +1,7 @@
 require('dotenv').config()
 
 const SALT = process.env.SALT;
+const BASE_SALT = process.env.BASE_SALT;
 
 module.exports = {
   version: 2,
@@ -106,6 +107,18 @@ module.exports = {
         index: 0,
       },
     },
+    wallet3: {
+      type: "private-key",
+      config: {
+        key: process.env.PRIVATE_KEY_3,
+      },
+    },
+    base: {
+      type: "private-key",
+      config: {
+        key: process.env.BASE_PRIVATE_KEY,
+      },
+    },
   },
   // Networks to deploy to
   networks: {
@@ -118,6 +131,10 @@ module.exports = {
     sepolia: {
       // RPC endpoint URL
       rpcUrl: () => process.env.SEPOLIA_RPC_URL,
+    },
+    base: {
+      // RPC endpoint URL
+      rpcUrl: () => process.env.BASE_RPC_URL,
     },
   },
   // Targets to deploy
@@ -136,11 +153,23 @@ module.exports = {
       // Network to deploy to
       network: "sepolia",
       // Wallet to use for deployment
-      wallet: "wallet2",
+      //wallet: "wallet2",
+      wallet: "wallet3",
       // Initialization function arguments
       initArgs: [],
       // CREATE3 salt
       create3Salt: SALT,
     },
+  base: {
+    // Network to deploy to
+    network: "base",
+    // Wallet to use for deployment
+    //wallet: "wallet2",
+    wallet: "base",
+    // Initialization function arguments
+    initArgs: [],
+    // CREATE3 salt
+    create3Salt: BASE_SALT,
+  },
   },
 };

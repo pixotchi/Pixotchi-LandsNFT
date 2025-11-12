@@ -10,14 +10,15 @@
     "test": "forge test -vv",
     "test-cov": "forge coverage -vv",
     "build": "gemforge build",
-    "build:watch": "find src/ lib_fork/ -name \"*.sol\"  | grep -v \"src/generate\" | entr -s 'npx @pixotchi.tech/gemforge build'",
+    "build:watch": "find src/ lib_fork/ -name \"*.sol\"  | grep -v \"src/generate\" | entr -s 'npx gemforge build'",
     "deploy:local": "gemforge build && gemforge deploy local --new",
     "deploy:testnet": "gemforge build && gemforge deploy testnet",
     "init:storage:testnet": "ts-node scripts/init.ts",
-    "land-cli": "ts-node scripts/land-cli.ts"
+    "land-cli": "ts-node scripts/land-cli.ts",
+    "deploy:base": "gemforge build && gemforge deploy base"
   },
   "devDependencies": {
-    "@pixotchi.tech/gemforge": "^2.7.1-0",
+    "gemforge": "^2.10.0",
     "@types/node": "^18.19.43",
     "@wagmi/cli": "^2.1.15",
     "dotenv": "^16.3.1",
