@@ -44,7 +44,21 @@ library LibQuestStorage {
             rewardMultiplier: 3
         });
 
-
+        // Initialize reward ranges with current constant values
+        s.minSeedReward = 1 ether;
+        s.maxSeedReward = 10 ether;
+        
+        s.minLeafReward = 1 ether;
+        s.maxLeafReward = 50 ether * 3285; // 3285 = 69 billion / 21 million
+        
+        s.minPlantLifetimeReward = 1 hours;
+        s.maxPlantLifetimeReward = 12 hours;
+        
+        s.minPlantPointsReward = 1 * 10 ** LibConstants.PLANT_POINT_DECIMALS;
+        s.maxPlantPointsReward = 100 * 10 ** LibConstants.PLANT_POINT_DECIMALS;
+        
+        s.minXpReward = 1 * 10 ** LibConstants.XP_DECIMALS;
+        s.maxXpReward = 5 * 10 ** LibConstants.XP_DECIMALS;
     }
 
     /// @dev Error thrown when trying to initialize with a version lower than or equal to the current version
@@ -96,6 +110,18 @@ library LibQuestStorage {
 
         mapping(QuestDifficultyLevel => QuestDifficulty) questDifficulties;
         mapping(uint256 => mapping(uint256 => Quest)) landQuests; // landId => farmerSlotId => Quest
+        
+        // Reward range storage
+        uint256 minSeedReward;
+        uint256 maxSeedReward;
+        uint256 minLeafReward;
+        uint256 maxLeafReward;
+        uint256 minPlantLifetimeReward;
+        uint256 maxPlantLifetimeReward;
+        uint256 minPlantPointsReward;
+        uint256 maxPlantPointsReward;
+        uint256 minXpReward;
+        uint256 maxXpReward;
     }
 
 }

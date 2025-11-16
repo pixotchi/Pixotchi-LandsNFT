@@ -11,21 +11,7 @@ library LibQuest {
         data = LibQuestStorage.data();
     }
 
-    // Reward ranges
-    uint256 internal constant MIN_SEED_REWARD = 1 ether;
-    uint256 internal constant MAX_SEED_REWARD = 10 ether; //50 ether; //100 initial
-
-    uint256 internal constant MIN_LEAF_REWARD = 1 ether;// * 3285; //3285 = 69 billion / 21 million
-    uint256 internal constant MAX_LEAF_REWARD = 50 ether * 3285; //3285 = 69 billion / 21 million // 100 initial
-
-    uint256 internal constant MIN_PLANT_LIFE_TIME_REWARD = 1 hours;
-    uint256 internal constant MAX_PLANT_LIFE_TIME_REWARD = 12 hours;
-
-    uint256 internal constant MIN_PLANT_POINTS_REWARD = 1 * 10 ** LibConstants.PLANT_POINT_DECIMALS;
-    uint256 internal constant MAX_PLANT_POINTS_REWARD = 100 * 10 ** LibConstants.PLANT_POINT_DECIMALS;
-
-    uint256 internal constant MIN_XP_REWARD = 1 * 10 ** LibConstants.XP_DECIMALS;
-    uint256 internal constant MAX_XP_REWARD = 5 * 10 ** LibConstants.XP_DECIMALS;
+    // Reward ranges - now stored in LibQuestStorage and read dynamically
 
     event QuestStarted(
         uint256 indexed landId,
@@ -161,7 +147,9 @@ library LibQuest {
         uint256 randomNumber = uint256(randomHash);
 
         // Use the random number to assign a single reward
-        (RewardType rewardType, uint256 rewardAmount) = assignRewards(randomNumber, quest.difficulty);
+        (RewardType assignedRewardType, uint256 assignedRewardAmount) = assignRewards(randomNumber, quest.difficulty);
+        rewardType = assignedRewardType;
+        rewardAmount = assignedRewardAmount;
 
         // Record the reward in the quest struct
         //quest.rewardType = rewardType;
@@ -197,7 +185,7 @@ library LibQuest {
     function assignRewards(
         uint256 randomNumber,
         QuestDifficultyLevel difficultyLevel
-    ) private returns (RewardType, uint256) {
+    ) private view returns (RewardType, uint256) {
         // Randomly select one reward type
         uint256 rewardIndex = randomNumber % 5; // There are 5 reward types
         RewardType rewardType = RewardType(rewardIndex);
@@ -206,22 +194,23 @@ library LibQuest {
         uint256 minReward;
         uint256 maxReward;
 
-        // Determine min and max reward based on reward type
+        // Determine min and max reward based on reward type (read from storage)
+        LibQuestStorage.Data storage s = _sQ();
         if (rewardType == RewardType.SEED) {
-            minReward = MIN_SEED_REWARD;
-            maxReward = MAX_SEED_REWARD;
+            minReward = s.minSeedReward;
+            maxReward = s.maxSeedReward;
         } else if (rewardType == RewardType.LEAF) {
-            minReward = MIN_LEAF_REWARD;
-            maxReward = MAX_LEAF_REWARD;
+            minReward = s.minLeafReward;
+            maxReward = s.maxLeafReward;
         } else if (rewardType == RewardType.PLANT_LIFE_TIME) {
-            minReward = MIN_PLANT_LIFE_TIME_REWARD;
-            maxReward = MAX_PLANT_LIFE_TIME_REWARD;
+            minReward = s.minPlantLifetimeReward;
+            maxReward = s.maxPlantLifetimeReward;
         } else if (rewardType == RewardType.PLANT_POINTS) {
-            minReward = MIN_PLANT_POINTS_REWARD;
-            maxReward = MAX_PLANT_POINTS_REWARD;
+            minReward = s.minPlantPointsReward;
+            maxReward = s.maxPlantPointsReward;
         } else if (rewardType == RewardType.XP) {
-            minReward = MIN_XP_REWARD;
-            maxReward = MAX_XP_REWARD;
+            minReward = s.minXpReward;
+            maxReward = s.maxXpReward;
         }
 
         // Calculate reward amount
