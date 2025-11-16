@@ -2,8 +2,8 @@
 pragma solidity >=0.8.21;
 
 import "../shared/Structs.sol";
-import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import { SafeERC20 } from "lib_fork/openzeppelin-v5/token/ERC20/utils/SafeERC20.sol";
+import { IERC20 } from "lib_fork/openzeppelin-v5/token/ERC20/IERC20.sol";
 import {IERC20Burnable} from "../interfaces/IERC20Burnable.sol";
 
 import "./LibConstants.sol";
